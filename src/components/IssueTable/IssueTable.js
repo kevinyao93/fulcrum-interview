@@ -11,6 +11,9 @@ function IssueTable(props) {
     const [deleteCheck, setDeleteCheck] = useState(new Array(props.issues.length).fill(false))
     const [costSums, setCostSums] = useState({'mat': 0, 'labor': 0, 'total': 0}) 
 
+    const hasChecked = deleteCheck.some(function(ele) {
+        return ele === true;
+    })
     // Update the check array with the correct index
     function toggleDelete(index) {
         let updatedArray = [...deleteCheck];
@@ -80,6 +83,17 @@ function IssueTable(props) {
                         <th>Material Cost</th>
                         <th>Labor Cost</th>
                         <th>Total Cost</th>
+                        <th className="noPadding">
+                            <Button 
+                                disabled={!hasChecked}
+                                id="delete_button"
+                                size="sm" 
+                                variant="danger"
+                                onClick={() => onDelete()}
+                            >
+                                Delete Selected
+                            </Button>
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
@@ -91,14 +105,15 @@ function IssueTable(props) {
                             <td>{costSums.mat.toFixed(2)}</td>
                             <td>{costSums.labor.toFixed(2)}</td>
                             <td>{costSums.total.toFixed(2)}</td>
-                            <td className="noPadding"><Button 
-                                id="delete_button"
-                                size="sm" 
-                                variant="danger"
-                                onClick={() => onDelete()}
-                            >
-                                Delete Selected
-                            </Button></td>
+                            <td>
+                                <Button
+                                    size="sm" 
+                                    variant="primary"
+                                    onClick={() => alert("Issue Total Cost " + costSums.total.toFixed(2))}
+                                >
+                                    Save
+                                </Button>
+                            </td>
                         </tr>
                     }   
                 </tbody>
